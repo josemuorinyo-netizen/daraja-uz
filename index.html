@@ -1,138 +1,46 @@
-<!DOCTYPE html>
-<html lang="uz">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Daraja Uz</title>
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
-<link rel="stylesheet" href="style.css">
-</head>
-<body>
-<div class="app">
-
-  <div class="topbar">
-    <div class="gauge"></div>
-    <div class="brand">Daraja<span>Uz</span></div>
-  </div>
-
-  <!-- HOME -->
-  <section class="screen active" id="screen-home">
-    <div>
-      <div class="hero-title">Bilim darajangizni aniqlang</div>
-      <div class="hero-sub">Fan tanlang yoki xalqaro test formatida sinang</div>
-    </div>
-    <div class="tile-grid">
-      <div class="tile" onclick="showScreen('screen-subjects')">
-        <div class="tile-icon">📚</div>
-        <div class="tile-name">Fanlar</div>
-        <div class="tile-sub">12 ta fan, har birida 10+ savol</div>
-      </div>
-      <div class="tile" onclick="showScreen('screen-cefr')">
-        <div class="tile-icon">🌍</div>
-        <div class="tile-name">CEFR</div>
-        <div class="tile-sub">A1–C1 daraja testi</div>
-      </div>
-      <div class="tile" onclick="showScreen('screen-ielts')">
-        <div class="tile-icon">🎓</div>
-        <div class="tile-name">IELTS</div>
-        <div class="tile-sub">4 ta yo'nalish</div>
-      </div>
-      <div class="tile wide" onclick="showScreen('screen-results')">
-        <div class="tile-icon">📊</div>
-        <div class="tile-name">Natijalarim</div>
-        <div class="tile-sub">Barcha topshirilgan testlar tarixi</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SUBJECT LIST -->
-  <section class="screen" id="screen-subjects">
-    <div class="row-back">
-      <button class="back-btn" onclick="showScreen('screen-home')">←</button>
-      <div class="hero-title" style="font-size:20px;">Fanlar</div>
-    </div>
-    <div class="subject-list" id="subject-list"></div>
-  </section>
-
-  <!-- CEFR HUB -->
-  <section class="screen" id="screen-cefr">
-    <div class="row-back">
-      <button class="back-btn" onclick="showScreen('screen-home')">←</button>
-      <div class="hero-title" style="font-size:20px;">CEFR</div>
-    </div>
-    <div class="hero-sub">4 ta yo'nalishni tugating — umumiy CEFR darajangiz (A1–C1) chiqariladi</div>
-    <div class="subject-list">
-      <div class="subject-row" onclick="startTest('cefr-listening')"><span class="ic">🎧</span><span class="name">Listening</span><span class="status">Boshlanmagan</span></div>
-      <div class="subject-row" onclick="startTest('cefr-reading')"><span class="ic">📖</span><span class="name">Reading</span><span class="status">Boshlanmagan</span></div>
-      <div class="subject-row" onclick="startTest('cefr-writing')"><span class="ic">✍️</span><span class="name">Writing</span><span class="status">Boshlanmagan</span></div>
-      <div class="subject-row" onclick="startTest('cefr-speaking')"><span class="ic">🎙️</span><span class="name">Speaking</span><span class="status">Boshlanmagan</span></div>
-    </div>
-  </section>
-
-  <!-- IELTS HUB -->
-  <section class="screen" id="screen-ielts">
-    <div class="row-back">
-      <button class="back-btn" onclick="showScreen('screen-home')">←</button>
-      <div class="hero-title" style="font-size:20px;">IELTS</div>
-    </div>
-    <div class="hero-sub">4 ta yo'nalishni tugating — umumiy band ballingiz chiqariladi</div>
-    <div class="subject-list">
-      <div class="subject-row" onclick="startTest('ielts-listening')"><span class="ic">🎧</span><span class="name">Listening</span><span class="status">Boshlanmagan</span></div>
-      <div class="subject-row" onclick="startTest('ielts-reading')"><span class="ic">📖</span><span class="name">Reading</span><span class="status">Boshlanmagan</span></div>
-      <div class="subject-row"><span class="ic">✍️</span><span class="name">Writing</span><span class="status">Tez orada (AI baholash)</span></div>
-      <div class="subject-row" onclick="startSpeaking()"><span class="ic">🎙️</span><span class="name">Speaking</span><span class="status">Ovoz yozib baholanadi</span></div>
-    </div>
-  </section>
-
-  <!-- TEST SCREEN -->
-  <section class="screen" id="screen-test">
-    <div class="row-back">
-      <button class="back-btn" onclick="exitTest()">←</button>
-      <div class="q-count" id="q-count">1 / 10</div>
-    </div>
-    <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
-    <div class="q-text" id="q-text"></div>
-    <div class="opt-list" id="opt-list"></div>
-    <button class="btn" id="next-btn" onclick="nextQuestion()" disabled>Keyingisi</button>
-  </section>
-
-  <!-- SPEAKING RECORD SCREEN -->
-  <section class="screen" id="screen-speaking">
-    <div class="row-back">
-      <button class="back-btn" onclick="showScreen('screen-ielts')">←</button>
-      <div class="hero-title" style="font-size:20px;">Speaking</div>
-    </div>
-    <div class="hero-sub">Savolga ovozli javob bering. AI javobingizni baholaydi.</div>
-    <div class="q-text" id="speaking-prompt">Describe a place you would like to visit and explain why.</div>
-    <button class="btn" id="record-btn" onclick="toggleRecording()">🎙️ Yozishni boshlash</button>
-    <div class="hero-sub" id="record-status"></div>
-  </section>
-
-  <!-- RESULT SCREEN -->
-  <section class="screen" id="screen-result">
-    <div class="result-ring" id="result-ring">
-      <div class="pct" id="result-pct">0%</div>
-      <div class="lvl" id="result-lvl">—</div>
-    </div>
-    <div class="result-label" id="result-label"></div>
-    <button class="btn" onclick="showScreen('screen-home')">Bosh sahifaga qaytish</button>
-    <button class="btn ghost" onclick="retryTest()">Qayta urinish</button>
-  </section>
-
-  <!-- RESULTS HISTORY -->
-  <section class="screen" id="screen-results">
-    <div class="row-back">
-      <button class="back-btn" onclick="showScreen('screen-home')">←</button>
-      <div class="hero-title" style="font-size:20px;">Natijalarim</div>
-    </div>
-    <div class="subject-list" id="history-list">
-      <div class="hero-sub">Hali hech qanday test topshirilmagan.</div>
-    </div>
-  </section>
-
-  <div class="footer-credit">BY Ulug'bekov Ilyosbek</div>
-</div>
-
-<script src="app.js"></script>
-</body>
-</html>
+DarajaUz
+Bilim darajangizni aniqlang
+Fan tanlang yoki xalqaro test formatida sinang
+📚
+Fanlar
+12 ta fan, har birida 10+ savol
+🌍
+CEFR
+A1–C1 daraja testi
+🎓
+IELTS
+4 ta yo'nalish
+📊
+Natijalarim
+Barcha topshirilgan testlar tarixi
+←
+Fanlar
+←
+CEFR
+4 ta yo'nalishni tugating — umumiy CEFR darajangiz (A1–C1) chiqariladi
+🎧ListeningBoshlanmagan
+📖ReadingBoshlanmagan
+✍️WritingBoshlanmagan
+🎙️SpeakingBoshlanmagan
+←
+IELTS
+4 ta yo'nalishni tugating — umumiy band ballingiz chiqariladi
+🎧ListeningBoshlanmagan
+📖ReadingBoshlanmagan
+✍️WritingBoshlanmagan
+🎙️SpeakingOvoz yozib baholanadi
+←
+1 / 10
+Keyingisi
+←
+Speaking
+Savolga ovozli javob bering. AI javobingizni baholaydi.
+Describe a place you would like to visit and explain why.
+🎙️ Yozishni boshlash
+0%
+—
+Bosh sahifaga qaytish Qayta urinish
+←
+Natijalarim
+Hali hech qanday test topshirilmagan.
+BY Ulug'bekov Ilyosbek
