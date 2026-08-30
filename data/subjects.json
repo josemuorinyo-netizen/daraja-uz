@@ -1,0 +1,14 @@
+[
+  { "id": "matematika", "name": "Matematika", "icon": "📐" },
+  { "id": "tarix", "name": "Tarix", "icon": "🏛️" },
+  { "id": "kimyo", "name": "Kimyo", "icon": "⚗️" },
+  { "id": "biologiya", "name": "Biologiya", "icon": "🧬" },
+  { "id": "huquq", "name": "Huquq", "icon": "⚖️" },
+  { "id": "ozbek-tili", "name": "O'zbek tili", "icon": "🇺🇿" },
+  { "id": "rus-tili", "name": "Rus tili", "icon": "🇷🇺" },
+  { "id": "ingliz-tili", "name": "Ingliz tili", "icon": "🇬🇧" },
+  { "id": "koreys-tili", "name": "Koreys tili", "icon": "🇰🇷" },
+  { "id": "nemis-tili", "name": "Nemis tili", "icon": "🇩🇪" },
+  { "id": "it", "name": "IT", "icon": "💻" },
+  { "id": "informatika", "name": "Informatika", "icon": "🖥️" }
+]
